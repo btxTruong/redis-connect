@@ -6,13 +6,19 @@ fn main() {
         std::io::stdin().read_line(&mut input).expect("Error reading input");
         let input = input.trim();
 
-        if input == "break" {
+        if input == "exit" {
             break;
         }
 
-        let mut redis = RedisCli::connect("127.0.0.1", 6379);
-        redis.send(format!("{}\n", input).as_bytes());
-        let byte_receive = redis.receive();
-        println!("{}", byte_receive);
+        if let Ok(mut redis) = RedisCli::connect("127.0.0.1:6379") {
+
+            redis.send(format!("{}\n", input).as_bytes());
+
+            let byte_receive = redis.receive();
+            println!("{}", byte_receive);
+        } else {
+            println!("Can't not connect Redis server. Try again ...");
+            continue;
+        }
     }
 }
