@@ -4,7 +4,7 @@ macro_rules! assert_ok {
         use std::result::Result::*;
         match $e {
             Ok(v) => v,
-            Err(e) => panic!("assertion failed, it's err"),
+            Err(_e) => panic!("assertion failed, it's err"),
         }
     };
 }
@@ -14,7 +14,7 @@ macro_rules! assert_err {
     ($e:expr) => {
         use std::result::Result::*;
         match $e {
-            Ok(v) => panic!("assertion failed, it's ok"),
+            Ok(_v) => panic!("assertion failed, it's ok"),
             Err(e) => e,
         }
     };
