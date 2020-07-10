@@ -11,13 +11,10 @@ pub struct RedisCli {
 
 impl RedisCli {
     pub fn connect<T: ToSocketAddrs>(addr: T) -> Result<RedisCli, RedisCliError> {
-        return if let Ok(stream) = TcpStream::connect(addr) {
-            Ok(RedisCli {
-                stream,
-            })
-        } else {
-            Err(RedisCliError::Error)
-        };
+        let stream = TcpStream::connect(addr)?;
+        Ok(RedisCli {
+            stream,
+        })
     }
 
     pub fn send(&mut self, data: &[u8]) {
